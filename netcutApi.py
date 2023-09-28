@@ -4,7 +4,6 @@ import random
 import time
 
 url = "https://netcut.cn/api/note2"
-props = {}
 expire_time = 94608000      #剪切板有效时间，默认最长（3年）
 
 
@@ -45,9 +44,8 @@ def createNote(noteName = None):
     if resp.json()['status'] != 1:
         return False
     noteId = resp.json()['data']['note_id']
-    props['noteName'] = noteName
-    props['noteId'] = noteId
-    setProps(props)
+    _props = {'noteName':noteName,'noteId':noteId}
+    setProps(_props)
     return True
 
 
@@ -92,9 +90,10 @@ if __name__ == '__main__':
     props = getProps()
     if props == {}:  #载入不成功创建新的剪切板
         createNote()
+        props = getProps()
 
     #写数据
-    flag = saveData(props['noteName'],'hello py!')
+    flag = saveData(props['noteName'],'hello py3 !')
     if not flag:
         print("保存失败！检查网络或props.json文件！")
 
